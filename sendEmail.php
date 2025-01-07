@@ -25,7 +25,7 @@ if (!$email) {
 }
 
 // Email configuration
-$to = "info@mynewwalls.com";  // Replace with your email
+$to = "info@myNewwalls.com";  // Replace with your email
 $subject = "New Request";
 $message = "
 <html>
@@ -77,7 +77,7 @@ $message = "
     <body>
         <div class='container'>
             <div class='header'>
-                <h2>NewWalls</h2>
+                <h2>Newwalls</h2>
             </div>
             <div class='content'>
                 <p><strong>Name:</strong> $name</p>
@@ -96,7 +96,7 @@ $message = "
 ";
 $headers = "MIME-Version: 1.0" . "\r\n";
 $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-$headers .= "From: NewWalls" . "\r\n";  // Replace with a valid "From" email
+$headers .= "From: Newwalls" . "\r\n";  // Replace with a valid "From" email
 
 if (mail($to, $subject, $message, $headers)) {
     echo json_encode(["success" => true, "message" => "Email sent successfully"]);

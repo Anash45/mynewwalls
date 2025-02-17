@@ -18,14 +18,13 @@ $phone = htmlspecialchars($data->phone);
 $service = htmlspecialchars($data->service);
 $user_message = htmlspecialchars($data->user_message);
 
-
 if (!$email) {
     echo json_encode(["success" => false, "message" => "Invalid email address."]);
     exit;
 }
 
-// Email configuration
-$to = "info@myNewwalls.com";  // Replace with your email
+// Email configuration for admin
+$to = "info@myNewwalls.com";
 $subject = "New Request";
 $message = "
 <html>
@@ -92,15 +91,70 @@ $message = "
             </div>
         </div>
     </body>
-    </html>
+</html>
 ";
 $headers = "MIME-Version: 1.0" . "\r\n";
 $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-$headers .= "From: Newwalls" . "\r\n";  // Replace with a valid "From" email
+$headers .= "From: Newwalls <info@myNewwalls.com>" . "\r\n";
 
-if (mail($to, $subject, $message, $headers)) {
-    echo json_encode(["success" => true, "message" => "Email sent successfully"]);
+$mail_admin = mail($to, $subject, $message, $headers);
+
+// Confirmation email to user
+$user_subject = "Thank You for Your Enquiry! 🎨✨";
+$user_message = "
+<html>
+    <head>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
+            }
+            .container {
+                max-width: 600px;
+                margin: 20px auto;
+                padding: 20px;
+                background-color: #ffffff;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            .content {
+                padding: 20px;
+                color: #333333;
+            }
+            .footer {
+                text-align: center;
+                font-size: 12px;
+                margin-top: 10px;
+                color: #777777;
+            }
+        </style>
+    </head>
+    <body>
+        <div class='container'>
+            <div class='content'>
+                <p>Thank You for Your Enquiry! 🎨✨</p>
+                <p>We’ve received your request for our painting and decorating services and will be in touch shortly to discuss your needs. Our team is excited to help transform your space!</p>
+                <p>If you have any additional details or questions, feel free to reach out further.</p>
+                <p>Looking forward to working with you!</p>
+                <p>📩 <a href='mailto:info@mynewwalls.com'>info@mynewwalls.com</a></p>
+                <p>🌐 <a href='https://www.mynewwalls.com'>www.mynewwalls.com</a></p>
+                <p>📞 0203 050 8696</p>
+            </div>
+            <div class='footer'>
+                <p>&copy; Newwalls. All rights reserved.</p>
+            </div>
+        </div>
+    </body>
+</html>
+";
+
+$mail_user = mail($email, $user_subject, $user_message, $headers);
+
+if ($mail_admin && $mail_user) {
+    echo json_encode(["success" => true, "message" => "Emails sent successfully"]);
 } else {
-    echo json_encode(["success" => false, "message" => "Failed to send email. Check server mail settings."]);
+    echo json_encode(["success" => false, "message" => "Failed to send emails. Check server mail settings."]);
 }
 ?>

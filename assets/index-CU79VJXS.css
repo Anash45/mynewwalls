@@ -3155,3 +3155,9 @@ header.w-full:before {
     opacity: .75;
     color: #000
 }
+
+@media (max-width: 576px) {
+    .home-banner .slick-slide img{
+        height: 610px;
+    }
+}
